@@ -20,10 +20,10 @@
 
 .equ data_command1 = 0b00001001		; data control nibble ,led on P3, EN 0 on P2, R/W 0 (write) in P1 , RS 1 (0 instruction, 1 data) = 1001  =0x09
 .equ data_command2 = 0b00001101		; data control nibble , 1101  = 0x0D   - EN goes hi=1
-.equ data_command3 = 0b00001001		; data control nibble , 1001  = 0x09   - EN goes low=0
+.equ data_command3 = 0b11111011		; data control nibble , 1001  = 0x09   - EN goes low=0
 .equ inst_command1 = 0b00001000		;instruction control nibble ,  led on en-lo,Rw-0,rs =0   = 1000   = 0x08
 .equ inst_command2 = 0b00001100		;instruction control nibble ,  led on,EN hi , rs/RW 0    = 1100   = 0x0C
-.equ inst_command3 = 0b00001000		;instruction control nibble  , led on, EN lo ,rs/rw 0    = 1000   = 0x08
+.equ inst_command3 = 0b11111011		;instruction control nibble  , led on, EN lo ,rs/rw 0    = 1000   = 0x08
 .EQU SLAVE_ADDRESSW = 0X4E   ; LCD1602 =4E
 .equ fclk = 10000000
 .DEF  SLAVE_REG = R17
@@ -194,7 +194,7 @@ COMMAND_WRITE:
 		ORI R17,inst_command2			;add instruction_command2 to lower nibble of r17 by OR ing it 
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
-		ORI R17,inst_command3			;add instruction_command3 to lower nibble of r17 by OR ing it
+		ANDI R17,inst_command3			;add instruction_command3 to lower nibble of r17 by OR ing it
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20		
 		LDS R17,PAD				;copy back data from PAD to r17 for processing the remaining lower nibble
@@ -206,7 +206,7 @@ COMMAND_WRITE:
 		ORI R17,inst_command2			;add instruction_command2 to lower nibble of r17 by OR ing it
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
-		ORI R17,inst_command3			;add instruction_command3 to lower nibble of r17 by OR ing it
+		ANDI R17,inst_command3			;add instruction_command3 to lower nibble of r17 by OR ing it
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
 		;RCALL TWI_STOP				;call TWI_STOP
@@ -227,7 +227,7 @@ DATA_WRITE:
 		ORI R17,data_command2			;add data_command2 to lower nibble of r17 by OR ing it 
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
-		ORI R17,data_command3			;add data_command3 to lower nibble of r17 by OR ing it 
+		ANDI R17,data_command3			;add data_command3 to lower nibble of r17 by OR ing it 
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
 		LDS R17,PAD				;copy back data from PAD to r17 for processing the remaining lower nibble
@@ -239,7 +239,7 @@ DATA_WRITE:
 		ORI R17,data_command2			;add data_command2 to lower nibble of r17 by OR ing it 
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
-		ORI R17,data_command3			;add data_command3 to lower nibble of r17 by OR ing it 
+		ANDI R17,data_command3			;add data_command3 to lower nibble of r17 by OR ing it 
 		RCALL TWI_WRITE				;call TWI_WRITE routine to transmit command data to LCD
 		micros 20
 		;RCALL TWI_STOP				;call TWI_STOP
